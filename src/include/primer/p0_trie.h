@@ -37,7 +37,11 @@ class TrieNode {
    *
    * @param key_char Key character of this trie node
    */
-  explicit TrieNode(char key_char) {}
+  explicit TrieNode(char key_char) {
+    is_end_ = false; //already stated in the definition
+    key_char_ = key_char;
+    children_.clear();
+  }
 
   /**
    * TODO(P0): Add implementation
@@ -47,7 +51,11 @@ class TrieNode {
    *
    * @param other_trie_node Old trie node.
    */
-  TrieNode(TrieNode &&other_trie_node) noexcept {}
+  TrieNode(TrieNode &&other_trie_node) noexcept {
+    key_char_ = other_trie_node.key_char_;
+    is_end_ = other_trie_node.is_end_;
+    children_.swap(other_trie_node.children_);
+  }
 
   /**
    * @brief Destroy the TrieNode object.
@@ -62,7 +70,9 @@ class TrieNode {
    * @param key_char Key char of child node.
    * @return True if this trie node has a child with given key, false otherwise.
    */
-  bool HasChild(char key_char) const { return false; }
+  bool HasChild(char key_char) const {
+    return children_.find(key_char) != children_.end();
+  }
 
   /**
    * TODO(P0): Add implementation
