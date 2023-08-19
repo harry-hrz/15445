@@ -390,17 +390,16 @@ class Trie {
       *success = false;
       return {};
     }
-    latch_.RLock();
     auto node = &root_;
     for (char ch : key) {
       auto next = node->get()->GetChildNode(ch);
       if (next == nullptr) {
         *success = false;
-        latch_.RUnlock();
         return {};
       }
       node = next;
     }
+    latch_.RLock();
     auto term = dynamic_cast<TrieNodeWithValue<T> *>(node->get());
     T result;
     if (term != nullptr) {
